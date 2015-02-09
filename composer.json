@@ -1,22 +1,17 @@
 {
-  "name":"simple-php-mvc/simple-php-mvc-installer",
+  "name":"simple-php-mvc/installer-module",
   "type": "library",
-  "description": "CLI & Grafic - Simple PHP-MVC Installer",
+  "description": "Installer Module - CLI & Grafic Installer",
   "license": "GPL-2.0",
-  "keywords": ["framework"],
+  "keywords": ["module"],
   "authors": [
     {
       "name": "Ramón Serrano",
       "email": "ramon.calle.88@gmail.com"
     }
   ],
-  "scripts": {
-    "post-install-cmd": [
-      "php -r \"rename('vendor/rameduard/simple-php-mvc/web', 'web');\""
-    ]
-  },
   "require": {
     "php": ">=5.3.3",
-    "rameduard/simple-php-mvc": ">=1.6"
+    "simple-php-mvc/simple-php-mvc": ">=1.6"
   }
 }

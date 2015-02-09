@@ -1,5 +1,5 @@
 {
-  "name":"rameduard/simple-php-mvc-installer",
+  "name":"simple-php-mvc/simple-php-mvc-installer",
   "type": "library",
   "description": "CLI & Grafic - Simple PHP-MVC Installer",
   "license": "GPL-2.0",

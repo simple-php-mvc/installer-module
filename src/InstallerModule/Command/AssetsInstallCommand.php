@@ -55,14 +55,14 @@ class AssetsInstallCommand extends Command
                 
                 $output->writeln(sprintf('Installing assets for <comment>%s</comment> into <comment>%s</comment>', $module->getNamespace(), $targetDir));
                 
-                #unlink($targetDir);
-                @rmdir($targetDir);
+                if (!$this->recursiveRemoveDir($targetDir)) {
+                    $output->writeln(sprintf('Could\'t been removed the dir "%s".', $targetDir));
+                }
                 
                 if ($input->getOption('symlinks')) {
                     #link($originDir, $targetDir);
                     @symlink($originDir, $targetDir);
                 } else {
-                    $output->writeln('This action is not finished. Use <info>php app/console ' . $this->getName() . ' web --symlink</info>');
                     $this->resourceCopy($originDir, $targetDir);
                 }
             }
@@ -90,4 +90,20 @@ class AssetsInstallCommand extends Command
         }
         closedir($dir);
     }
+    
+    /**
+     * Recursive Remove Dir
+     * 
+     * @param string $dir
+     * @return boolean
+     */
+    function recursiveRemoveDir($dir)
+    {
+        $files = array_diff(scandir($dir), array('.', '..'));
+        foreach ($files as $file) {
+            (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+        }
+        return rmdir($dir);
+    }
+
 }

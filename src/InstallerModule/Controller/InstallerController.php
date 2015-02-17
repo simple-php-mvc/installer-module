@@ -2,15 +2,35 @@
 
 namespace InstallerModule\Controller;
 
-use MVC\Controller\Controller,
-	MVC\MVC;
+use MVC\MVC;
 
-class InstallerController extends Controller
+class InstallerController extends BaseController
 {
 
-	function index(MVC $mvc)
-	{
-		return '<title>Simple PHP MVC Installer</title>';
-	}
+    function index(MVC $mvc)
+    {
+        # Configure commands
+        $this->configure($mvc);
+        
+        
+        
+        return $mvc->getCvpp('twig')->render('Installer/index.twig');
+    }
 
+    private function execute($command)
+    {
+        $app = new Application($this->get('kernel'));
+        $app->setAutoExit(false);
+
+        $input = new StringInput($command);
+        $output = new BufferedOutput();
+
+        $error = $app->run($input, $output);
+
+        if ($error != 0)
+            $msg = "Error: $error";
+        else
+            $msg = $output->getBuffer();
+        return $msg;
+    }
 }

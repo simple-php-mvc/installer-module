@@ -14,7 +14,7 @@ class PDOGenerator extends ModelGenerator
     
     /**
      *
-     * @var type 
+     * @var string 
      */
     protected static $classTemplate = 
 '<?php
@@ -33,6 +33,8 @@ class <modelClassName> extends Model
 ';
     
     /**
+     * Construct method template
+     * 
      * @var string
      */
     protected static $constructorMethodTemplate =

@@ -80,8 +80,10 @@ class GenerateModelCommand extends Command
         ));
         
         $module = $mvc->getModule($module);
+        
         if ('dbal' == strtolower($input->getOption('type'))) {
             $generator = new DBALGenerator();
+            $generator->generate($module, $modelName, array($fields));
         } else if ('orm' == strtolower($input->getOption('type'))) {
             $generator = new ORMGenerator();
         } else {
@@ -122,6 +124,8 @@ class GenerateModelCommand extends Command
         $question = new Question(sprintf('The Model type: <info>[%s]</info> ', $input->getOption('type')), $input->getOption('type'));
         $question->setAutocompleterValues($modelTypes);
         $modelType = $questionHelper->ask($input, $output, $question);
+        # Sets type
+        $input->setOption('type', $modelType);
         
         while (true) {
             $question = new Question(sprintf('The Model/Entity shortcut name: <info>[%s]</info> ', $input->getOption('name')), $input->getOption('name'));

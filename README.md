@@ -5,4 +5,5 @@ Installer Module using symfony commands
 
 ## Commands
 
-- AssetsInstall
+- AssetsInstall - app/console app:assets:install 
+- GenerateModel (Doctrine DBAL, Doctrine ORM and PDO) - app/console app:generate:model

@@ -47,7 +47,7 @@ class GenerateModelCommand extends Command
             ->addOption('type', null, InputOption::VALUE_REQUIRED, 'Model type (dbal, orm, or pdo)', 'pdo')
             ->addOption('with-repository', null, InputOption::VALUE_NONE, 'Whether to generate the entity repository or not')
             ->setAliases(array('app:generate:model'))
-            ->setDescription('Create a model database.')
+            ->setDescription('Generate a model database application.')
             ;
     }
     

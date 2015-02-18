@@ -1,0 +1,14 @@
+{% extends "layout.twig" %}
+
+{% block title %}Execution results - {{ parent() }}{% endblock %}
+
+{% block container %}
+    <h1>Execution results</h1>
+    <div class="results">
+        <p><b>Command</b>: {{ command }}</p>
+        <p><b>Result</b>: {{ result }}</p>
+        {% if error != '' %}
+            <p><b>Error</b>: {{ error }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

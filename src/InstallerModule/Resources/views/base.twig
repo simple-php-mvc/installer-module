@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <title>{% block title %}Installer Module{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        {% block head_javascripts %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ mvc.urlFor('/favicon.ico') }}" />
+        <style>
+            .pace .pace-progress {
+                background: #00c0ef;
+                position: fixed;
+                z-index: 2000;
+                top: 0;
+                left: 0;
+                height: 2px;
+                -webkit-transition: width 1s;
+                -moz-transition: width 1s;
+                -o-transition: width 1s;
+                transition: width 1s;
+            }
+            .pace-inactive {
+                display: none;
+            }
+        </style>
+        <script src="{{ mvc.urlFor('/modules/installer/js/plugins/pace/pace.min.js') }}"></script>
+    </head>
+    <body {% block body_attr %}{% endblock %}>
+        {% block body %}
+            {% block header %}{% endblock %}
+            {% block container %}{% endblock %}
+            {% block footer %}{% endblock %}
+        {% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

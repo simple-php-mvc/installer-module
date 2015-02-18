@@ -12,25 +12,24 @@ class InstallerController extends BaseController
         # Configure commands
         $this->configure($mvc);
         
+        $commands = $this->getListCommands();
         
-        
-        return $mvc->getCvpp('twig')->render('Installer/index.twig');
+        return $mvc->getCvpp('twig')->render('Installer/index.twig', array(
+            'commands' => $commands
+        ));
     }
 
-    private function execute($command)
+    function execute(MVC $mvc, $command)
     {
-        $app = new Application($this->get('kernel'));
-        $app->setAutoExit(false);
-
-        $input = new StringInput($command);
-        $output = new BufferedOutput();
-
-        $error = $app->run($input, $output);
-
-        if ($error != 0)
-            $msg = "Error: $error";
-        else
-            $msg = $output->getBuffer();
-        return $msg;
+        # Configure commands
+        $this->configure($mvc);
+        
+        $result = parent::executeCommand($command);
+        
+        return $mvc->getCvpp('twig')->render('Installer/execute.twig', array(
+            'command' => $result['command'],
+            'result'  => $result['output'],
+            'error'   => $result['errorCode']
+        ));
     }
 }

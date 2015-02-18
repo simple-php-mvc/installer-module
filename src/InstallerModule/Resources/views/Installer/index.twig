@@ -1,1 +1,16 @@
-Index twig
+{% extends "layout.twig" %}
+
+{% block title %}List Commands - {{ parent() }}{% endblock %}
+
+{% block container %}
+    <h1>List Commands</h1>
+    <ul>
+        {% for command in commands %}
+            <li>
+                <a href="{{ mvc.urlFor('/execute') }}/{{ command.name }}">
+                    {{ command.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

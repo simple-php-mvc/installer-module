@@ -32,14 +32,18 @@ class AssetsInstallCommand extends Command
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        # MVC object
+        $mvc = MVCStore::retrieve('mvc');
+        if ($input->getArgument('folder') == 'web') {
+            $input->setArgument('folder', dirname($mvc->getAppDir()) . '/web');
+        }
+        
         $folderArg = rtrim($input->getArgument('folder'), '/');
         if (!is_dir($folderArg)) {
             throw new \InvalidArgumentException(sprintf('The target directory "%s" does not exist.', $input->getArgument('folder')));
         }
         
-        $mvc = MVCStore::retrieve('mvc');
-        
-        $modulesPath = dirname($mvc->getAppDir()) . '/' . $folderArg . '/modules/';
+        $modulesPath = $folderArg . '/modules/';
         @mkdir($modulesPath);
         
         if ($input->getOption('symlinks')) {
@@ -81,7 +85,7 @@ class AssetsInstallCommand extends Command
         while (false !== ( $file = readdir($dir))) {
             if (( $file != '.' ) && ( $file != '..' )) {
                 if (is_dir($sourceDir . '/' . $file)) {
-                    recurse_copy($sourceDir . '/' . $file, $destinyDir . '/' . $file);
+                    $this->resourceCopy($sourceDir . '/' . $file, $destinyDir . '/' . $file);
                 } else {
                     copy($sourceDir . '/' . $file, $destinyDir . '/' . $file);
                 }
@@ -98,11 +102,15 @@ class AssetsInstallCommand extends Command
      */
     function recursiveRemoveDir($dir)
     {
-        $files = array_diff(scandir($dir), array('.', '..'));
-        foreach ($files as $file) {
-            (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+        if (is_link($dir)) {
+            @unlink($dir);
+        } else if (is_dir($dir)) {
+            $files = array_diff(@scandir($dir), array('.', '..'));
+            foreach ($files as $file) {
+                (is_dir("$dir/$file")) ? $this->recursiveRemoveDir("$dir/$file") : @unlink("$dir/$file");
+            }
         }
-        return rmdir($dir);
+        return @rmdir($dir);
     }
 
 }

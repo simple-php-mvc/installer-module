@@ -3,6 +3,7 @@
 namespace InstallerModule\Controller;
 
 use InstallerModule\Console\HtmlOutputFormatterDecorator;
+use InstallerModule\MVCStore;
 use InstallerModule\Console\StringOutput;
 use MVC\Controller\Controller;
 use MVC\Tests\Provider\ConsoleSymfonyProvider;
@@ -140,6 +141,9 @@ abstract class BaseController extends Controller
         $formatter->setDecorated(true);
         $output->setFormatter(new HtmlOutputFormatterDecorator($formatter));
         
+        # MVC object store
+        MVCStore::store('mvc', $this->mvc);
+        
         // Some commands (i.e. doctrine:query:dql) dump things out instead of returning a value
         ob_start();
         $this->application->setAutoExit(false);
@@ -151,7 +155,7 @@ abstract class BaseController extends Controller
         ob_end_clean();
         
         return array(
-            'input'       => $command,
+            'command'       => $command,
             'output'      => $result,
             'errorCode'  => $errorCode
         );
